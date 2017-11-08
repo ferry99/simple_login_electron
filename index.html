@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+  </head>
+  <body>
+    <h1>Login System</h1>
+    <form action="" id="myform">
+      <input type="text" name="username" id="name" placeholder="input username">
+      <input type="password" name="password" id="password" placeholder="input password" required>      
+      <button type="submit" name="submit1" id="submit1">submit</button>
+    </form>
+    <!-- All of the Node.js APIs are available in this renderer process. -->
+    We are using Node.js <script>document.write(process.versions.node)</script>,
+    Chromium <script>document.write(process.versions.chrome)</script>,
+    and Electron <script>document.write(process.versions.electron)</script>.
+
+    <script>window.$ = window.jQuery = require('./jquery.min.js');</script>
+    <script>
+
+      // You can also require other files to run in this process
+      require('./renderer.js')
+    </script>
+  </body>
+</html>
+
+<script >
+$(document).ready(function(){
+  $('#submit1').click(function(e){
+    e.preventDefault();
+    postData = $('#myform').serialize();
+    $.ajax({
+      url: 'http://localhost:8080/electron-starter/auth.php',
+      method: 'POST',
+      data : postData,
+      success:function(response){
+        console.log(response);
+        $rs = JSON.parse(response);
+        if($rs.success == 'true'){
+          alert('login success');
+        }else{
+          alert('login failed');
+        }
+      }			    	
+    });
+  })
+})
+</script>
